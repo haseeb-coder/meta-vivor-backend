@@ -1,0 +1,38 @@
+{
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2020": true
+  },
+  "extends": ["eslint:recommended", "plugin:import/errors", "plugin:import/warnings"],
+  "globals": {
+    "__DEV__": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11,
+    "sourceType": "module"
+  },
+  "plugins": ["import"],
+  "rules": {
+    "no-console": "error",
+    "no-debugger": "error",
+    "eqeqeq": ["error", "always"],
+    "no-unused-vars": ["error", {"ignoreRestSiblings": true}],
+    "import/no-unresolved": "off",
+    "import/named": "error",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/no-named-as-default": "off",
+    "import/export": "error",
+    "import/no-duplicates": "error",
+    "no-async-promise-executor": "off",
+    // "import/no-cycle": "error",
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always"
+      }
+    ]
+  }
+}

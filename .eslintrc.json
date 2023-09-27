@@ -4,7 +4,13 @@
     "browser": true,
     "es2020": true
   },
-  "extends": ["eslint:recommended", "plugin:import/errors", "plugin:import/warnings"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "globals": {
     "__DEV__": true
   },
@@ -12,7 +18,7 @@
     "ecmaVersion": 11,
     "sourceType": "module"
   },
-  "plugins": ["import"],
+  "plugins": ["import", "@typescript-eslint"],
   "rules": {
     "no-console": "error",
     "no-debugger": "error",

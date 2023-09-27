@@ -1,0 +1,9 @@
+export const  GENDER_TYPE_MALE = 'Male';
+export const  GENDER_TYPE_FEMALE = 'Female';
+export const GENDER_TYPE_OTHER = 'Other';
+
+
+export const QUESTION_TYPE_DESCRIPTION = 'DESCRIPTION';
+export const QUESTION_TYPE_MULTIPLE_CHOICE = 'MULTIPLE_CHOICE';
+export const QUESTION_TYPE_INPUT_FIELD = 'INPUT_FIELD';
+export const QUESTION_TYPE_FILE_UPLOAD = 'FILE_UPLOAD';

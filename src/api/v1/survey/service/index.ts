@@ -42,18 +42,18 @@ class SurveyService {
     }
 
     const newQuestionData: Question = {
-      questionType: questionData.questionType,
       content: questionData.content,
       options: questionData.options,
+      previousQuestionId: questionData.previousQuestionId
     };
 
     const newQuestion = new QuestionModel(newQuestionData);
     await newQuestion.save();
     survey.questions.push(newQuestion._id);
-    if (questionData.nextQuestionId) {
-      const linkedQuestion = await QuestionModel.findById(questionData.nextQuestionId).exec();
+    if (questionData.previousQuestionId) {
+      const linkedQuestion = await QuestionModel.findById(questionData.previousQuestionId).exec();
       if (linkedQuestion) {
-        newQuestion.nextQuestionId = linkedQuestion._id;
+        newQuestion.previousQuestionId = linkedQuestion._id;
         await newQuestion.save();
       }
     }
@@ -81,18 +81,7 @@ class SurveyService {
       throw new Error('Question not found');
     }
 
-    // Ensure that updatedQuestionData.questionType is one of the enum values
-    if (
-      updatedQuestionData.questionType !== 'DESCRIPTION' &&
-      updatedQuestionData.questionType !== 'MULTIPLE_CHOICE' &&
-      updatedQuestionData.questionType !== 'INPUT_FIELD' &&
-      updatedQuestionData.questionType !== 'FILE_UPLOAD'
-    ) {
-      throw new Error('Invalid question type');
-    }
-
     // Update the question
-    question.questionType = updatedQuestionData.questionType;
     question.content = updatedQuestionData.content;
     question.options = updatedQuestionData.options;
 

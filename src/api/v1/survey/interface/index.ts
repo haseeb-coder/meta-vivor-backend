@@ -3,10 +3,10 @@ import mongoose from 'mongoose';
 import {UserBody} from '../../user/interface';
 
 export interface Question {
-  questionType: string;
+  // questionType: string;
   content: string;
   options: string[];
-  nextQuestionId?: mongoose.Types.ObjectId; 
+  previousQuestionId: mongoose.Types.ObjectId; 
 }
 
 export interface Survey {

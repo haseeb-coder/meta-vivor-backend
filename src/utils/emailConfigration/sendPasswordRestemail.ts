@@ -4,7 +4,7 @@ async function sendPasswordResetEmail(email: string, resetToken: string) {
   const transporter = configureTransporter();
 
   // Construct the reset password URL
-  const resetPasswordUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
+  const resetPasswordUrl = `http://localhost:3000/change-password?token=${resetToken}`;
 
   // Compose the email
   const mailOptions = {

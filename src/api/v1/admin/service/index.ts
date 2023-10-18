@@ -36,6 +36,17 @@ class AdminService {
     }
   }
 
+
+
+  static async findAdminByEmail(email: string) {
+    try {
+      const admin = await Admin.findOne({ email });
+      return admin;
+    } catch (err) {
+      throw new Error('Failed to check email existence');
+    }
+  }
+  
   static async forgotPassword(email: string) {
     try {
       // Generate a unique reset token (e.g., a UUID)

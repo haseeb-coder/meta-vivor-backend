@@ -17,7 +17,7 @@ async function sendPasswordResetEmail(email: string, resetToken: string) {
   // Send the email
   try {
     await transporter.sendMail(mailOptions);
-    return { success: true, message: 'Password reset email sent successfully' };
+    return { success: true, message: 'Email sent successfully' };
   } catch (error) {
     //eslint-disable-next-line
     console.error('Error sending password reset email:', error);

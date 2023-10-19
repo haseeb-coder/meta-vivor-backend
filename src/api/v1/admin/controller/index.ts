@@ -27,31 +27,26 @@ class AdminController {
 
   static async handleForgetPassword(req: Request, res: Response) {
     return createController(res, async () => {
-      const { email } = req.body;
-  
+      const {email} = req.body;
+
       if (!email) {
-        return { message: 'Please provide a valid email address' };
+        return {message: 'Please provide a valid email address'};
       }
-  
+
       const admin = await AdminService.findAdminByEmail(email);
-  
+
       if (!admin) {
-        return { message: `We couldn't find an account with this email` };
+        throw {message: `We couldn't find an account with this email`};
       }
-  
+
       // If the email exists, generate a reset token and send a password reset email
       const resetToken = await AdminService.forgotPassword(email);
-      const emailResponse = await sendPasswordResetEmail(email, resetToken);
-  
-      if (emailResponse.success) {
-        return { message: emailResponse.message };
-      } else {
-        // Handle the case when sending the email fails
-        return { message: 'Email could not be sent' };
-      }
+      await sendPasswordResetEmail(email, resetToken);
+
+      return {message: 'Email sent successfully'};
     });
   }
-  
+
   static async handleResetPassword(req: Request, res: Response) {
     return createController(res, async () => {
       const {token} = req.params;

@@ -5,10 +5,15 @@ import User from '../../user/schema';
 //schema for Questions
 const QuestionSchema = new Schema({
   content: {type: String, required: true},
-  options: {type: [String], required: true},
-  previousQuestionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Question',
+  options: {
+    type: [
+      {
+        optionCont: {type: String, required: true},
+        finishedSurvey: {type: Boolean, required: true},
+        nextQuestionId: {type: mongoose.Schema.Types.ObjectId, ref: 'Question'},
+      },
+    ],
+    required: true,
   },
 });
 

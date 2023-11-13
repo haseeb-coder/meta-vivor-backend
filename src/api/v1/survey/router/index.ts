@@ -17,9 +17,7 @@ SurveyRouter.post('/:surveyId/question', SurveyController.handleCreateQuestion);
 
 SurveyRouter.get('/filled-survey', SurveyController.handleGetAllFilledSurveys);
 
-
 // Update a specific question within a survey
 SurveyRouter.put('/:surveyId/questions/:questionId', SurveyController.handleUpdateQuestion);
-
 
 export default SurveyRouter;

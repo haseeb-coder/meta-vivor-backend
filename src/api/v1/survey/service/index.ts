@@ -1,5 +1,5 @@
 import {SurveyModel, QuestionModel} from '../schema';
-import {Survey, Question} from '../interface';
+import {Survey, Question, Option} from '../interface';
 
 class SurveyService {
   async createSurvey(surveyData: Survey): Promise<Survey> {
@@ -41,22 +41,30 @@ class SurveyService {
       throw new Error('Survey not found');
     }
 
+    const newOptions: Option[] = questionData.options.map(option => ({
+      optionCont: option.optionCont,
+      finishedSurvey: option.finishedSurvey,
+      nextQuestionId: option.nextQuestionId,
+    }));
+
     const newQuestionData: Question = {
       content: questionData.content,
-      options: questionData.options,
-      previousQuestionId: questionData.previousQuestionId
+      options: newOptions,
     };
 
     const newQuestion = new QuestionModel(newQuestionData);
     await newQuestion.save();
     survey.questions.push(newQuestion._id);
-    if (questionData.previousQuestionId) {
-      const linkedQuestion = await QuestionModel.findById(questionData.previousQuestionId).exec();
-      if (linkedQuestion) {
-        newQuestion.previousQuestionId = linkedQuestion._id;
-        await newQuestion.save();
+
+    // Handle nextQuestionId within options
+    newOptions.forEach(async (option, index) => {
+      if (questionData.options[index].nextQuestionId) {
+        const linkedQuestion = await QuestionModel.findById(questionData.options[index].nextQuestionId).exec();
+        if (linkedQuestion) {
+          option.nextQuestionId = linkedQuestion._id;
+        }
       }
-    }
+    });
 
     await survey.save();
     return 'Question created successfully';
@@ -69,8 +77,11 @@ class SurveyService {
     return filledSurveys.map(survey => survey.toJSON());
   }
 
-  async updateQuestionInSurvey(surveyId: string,questionId: string,updatedQuestionData: Question): Promise<Survey | null>
-   {
+  async updateQuestionInSurvey(
+    surveyId: string,
+    questionId: string,
+    updatedQuestionData: Question,
+  ): Promise<Survey | null> {
     const survey = await SurveyModel.findById(surveyId).exec();
     if (!survey) {
       throw new Error('Survey not found');

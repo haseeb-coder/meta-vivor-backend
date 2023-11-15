@@ -8,8 +8,9 @@ const QuestionSchema = new Schema({
   options: {
     type: [
       {
-        optionCont: {type: String, required: true},
-        finishedSurvey: {type: Boolean, required: true},
+        currentLetter: {type: String, required: true},
+        optionText: {type: String, required: true},
+        isFinishSurveySelected: {type: Boolean, required: true},
         nextQuestionId: {type: mongoose.Schema.Types.ObjectId, ref: 'Question'},
       },
     ],

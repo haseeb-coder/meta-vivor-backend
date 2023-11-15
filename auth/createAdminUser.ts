@@ -1,10 +1,10 @@
-import bcrypt from 'bcrypt';
-import { MongoClient, MongoClientOptions } from 'mongodb';
+import bcryptjs from 'bcryptjs';
+import {MongoClient, MongoClientOptions} from 'mongodb';
 
 const createAdminUser = async () => {
   const adminUser = {
     username: 'admin',
-    password: await bcrypt.hash('Admin@123', 10), // Replace with a secure password
+    password: await bcryptjs.hash('Admin@123', 10), // Replace with a secure password
     email: 'haseebsiddique26@gmail.com', // Replace with an actual email address
   };
 

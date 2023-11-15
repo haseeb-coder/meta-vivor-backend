@@ -42,8 +42,9 @@ class SurveyService {
     }
 
     const newOptions: Option[] = questionData.options.map(option => ({
-      optionCont: option.optionCont,
-      finishedSurvey: option.finishedSurvey,
+      currentLetter: option.currentLetter,
+      optionText: option.optionText,
+      isFinishSurveySelected: option.isFinishSurveySelected,
       nextQuestionId: option.nextQuestionId,
     }));
 
@@ -94,7 +95,7 @@ class SurveyService {
 
     // Update the question
     question.content = updatedQuestionData.content;
-    question.options = updatedQuestionData.options;
+    // question.options = updatedQuestionData.options;
 
     await question.save();
 

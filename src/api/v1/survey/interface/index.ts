@@ -3,8 +3,9 @@ import mongoose from 'mongoose';
 import {UserBody} from '../../user/interface';
 
 export interface Option {
-  optionCont: string;
-  finishedSurvey: boolean;
+  currentLetter?: string;
+  optionText?: string;
+  isFinishSurveySelected?: boolean;
   nextQuestionId?: mongoose.Types.ObjectId;
 }
 

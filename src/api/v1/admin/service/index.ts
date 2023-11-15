@@ -1,13 +1,13 @@
-import bcrypt from 'bcrypt';
-import { v4 as uuidv4 } from 'uuid';
+import bcryptjs from 'bcryptjs';
+import {v4 as uuidv4} from 'uuid';
 
 import Admin from '../schema/index';
-import { AdminBody } from '../interface/index';
+import {AdminBody} from '../interface/index';
 
 class AdminService {
   static async registerAdmin(body: AdminBody) {
     try {
-      const hashedPassword = await bcrypt.hash(body.password, 10);
+      const hashedPassword = await bcryptjs.hash(body.password, 10);
       const newAdmin = new Admin({
         adminname: body.adminname,
         email: body.email,
@@ -22,11 +22,11 @@ class AdminService {
 
   static async loginAdmin(email: string, password: string) {
     try {
-      const admin = await Admin.findOne({ email });
+      const admin = await Admin.findOne({email});
       if (!admin) {
         throw new Error('Invalid credentials');
       }
-      const isValidPassword = await bcrypt.compare(password, admin.password);
+      const isValidPassword = await bcryptjs.compare(password, admin.password);
       if (!isValidPassword) {
         throw new Error('Invalid credentials');
       }
@@ -36,17 +36,15 @@ class AdminService {
     }
   }
 
-
-
   static async findAdminByEmail(email: string) {
     try {
-      const admin = await Admin.findOne({ email });
+      const admin = await Admin.findOne({email});
       return admin;
     } catch (err) {
       throw new Error('Failed to check email existence');
     }
   }
-  
+
   static async forgotPassword(email: string) {
     try {
       // Generate a unique reset token (e.g., a UUID)
@@ -54,7 +52,7 @@ class AdminService {
       // Set the expiration time for the reset token (e.g., 1 hour from now)
       const resetTokenExpiration = new Date(Date.now() + 3600000); // Token expires in 1 hour
       await Admin.updateOne(
-        { email },
+        {email},
         {
           $set: {
             resetToken,
@@ -73,7 +71,7 @@ class AdminService {
       // Find the admin by the reset token
       const admin = await Admin.findOne({
         resetToken: token,
-        resetTokenExpiration: { $gt: Date.now() },
+        resetTokenExpiration: {$gt: Date.now()},
       });
 
       if (!admin) {
@@ -86,7 +84,7 @@ class AdminService {
       }
 
       // Update the admin's password
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      const hashedPassword = await bcryptjs.hash(newPassword, 10);
       admin.password = hashedPassword;
       admin.resetToken = '';
       admin.resetTokenExpiration = new Date();

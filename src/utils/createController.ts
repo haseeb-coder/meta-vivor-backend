@@ -7,7 +7,6 @@ async function createController<T>(res: Response, controller: () => Promise<T>) 
   } catch (error: any) {
     const status = error.statusCode || (error.code === 'InvalidParameterException' ? 400 : 500);
     const message = error.message || 'Internal Server Error';
-
     return res.status(status).json({ error: { message } });
   }
 }

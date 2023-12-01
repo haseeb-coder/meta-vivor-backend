@@ -80,6 +80,14 @@ class SurveyController {
       return updatedSurvey;
     });
   }
+
+  async handledeleteQuestion(req: Request, res: Response) {
+    await createController(res, async () => {
+      const {surveyId, questionId} = req.params;
+      await SurveyService.deleteQuestion(surveyId, questionId);
+      return {message: 'Question deleted successfully'};
+    });
+  }
 }
 
 export default new SurveyController();

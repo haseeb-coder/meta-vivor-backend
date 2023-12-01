@@ -20,4 +20,7 @@ SurveyRouter.get('/filled-survey', SurveyController.handleGetAllFilledSurveys);
 // Update a specific question within a survey
 SurveyRouter.put('/:surveyId/questions/:questionId', SurveyController.handleUpdateQuestion);
 
+// Delete a specific question within a survey
+SurveyRouter.delete('/:surveyId/questions/:questionId', SurveyController.handledeleteQuestion);
+
 export default SurveyRouter;

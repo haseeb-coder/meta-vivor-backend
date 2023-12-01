@@ -41,7 +41,7 @@ class SurveyService {
       throw new Error('Survey not found');
     }
 
-    const newOptions: Option[] = questionData.options.map(option => ({
+    const newOptions: Option[] = questionData.options.map(option => ({  
       currentLetter: option.currentLetter,
       optionText: option.optionText,
       isFinishSurveySelected: option.isFinishSurveySelected,
@@ -92,14 +92,22 @@ class SurveyService {
     if (!question) {
       throw new Error('Question not found');
     }
-
-    // Update the question
     question.content = updatedQuestionData.content;
-    // question.options = updatedQuestionData.options;
+    question.options = updatedQuestionData.options;
+    const updatedQuestion = await question.save();
+    return updatedQuestion.toJSON()
+    
+  }
 
-    await question.save();
-
-    return survey.toJSON();
+  async deleteQuestion(surveyId: string, questionId: string): Promise<void> {
+    const survey = await SurveyModel.findById(surveyId).exec();
+    if (!survey) {
+      throw new Error('Survey not found');
+    }
+    const question = await QuestionModel.findByIdAndRemove(questionId).exec();
+    if (!question) {
+      throw new Error('Question not found');
+    }
   }
 }
 

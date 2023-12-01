@@ -3,10 +3,10 @@ import mongoose from 'mongoose';
 import {UserBody} from '../../user/interface';
 
 export interface Option {
-  currentLetter?: string;
-  optionText?: string;
-  isFinishSurveySelected?: boolean;
-  nextQuestionId?: mongoose.Types.ObjectId;
+  currentLetter: string;
+  optionText: string;
+  isFinishSurveySelected: boolean;
+  nextQuestionId?: mongoose.Types.ObjectId ;
 }
 
 export interface Question {
